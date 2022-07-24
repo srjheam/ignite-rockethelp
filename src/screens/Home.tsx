@@ -4,6 +4,7 @@ import { HStack, IconButton, VStack, useTheme, Text, Heading, FlatList } from "n
 
 import { SignOut } from "phosphor-react-native";
 
+import { Button } from "../components/Button";
 import { Filter } from "../components/Filter";
 import { Order, OrderProps } from "../components/Order";
 
@@ -71,6 +72,8 @@ export function Home() {
           keyExtractor={item => item.id}
           renderItem={({ item }) => <Order data={item} />}
         />
+
+        <Button title="Nova solicitação" />
       </VStack>
     </VStack>
   );
