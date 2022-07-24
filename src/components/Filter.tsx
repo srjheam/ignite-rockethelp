@@ -1,9 +1,11 @@
 import { Button, IButtonProps, Text, useTheme } from "native-base";
 
+import { OrderStatus } from "../types";
+
 type Props = IButtonProps & {
   title: string,
   isActive?: boolean,
-  type: FilterType
+  type: OrderStatus
 }
 
 export function Filter({ title, isActive = false, type, ...rest }: Props) {
@@ -29,5 +31,3 @@ export function Filter({ title, isActive = false, type, ...rest }: Props) {
     </Button>
   );
 }
-
-export type FilterType = 'open' | 'closed';
