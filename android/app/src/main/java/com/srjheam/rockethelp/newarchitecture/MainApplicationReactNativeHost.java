@@ -1,4 +1,4 @@
-package com.igniterockethelp.newarchitecture;
+package com.srjheam.rockethelp.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.EmptyReactNativeConfig;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.igniterockethelp.BuildConfig;
-import com.igniterockethelp.newarchitecture.components.MainComponentsRegistry;
-import com.igniterockethelp.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.srjheam.rockethelp.BuildConfig;
+import com.srjheam.rockethelp.newarchitecture.components.MainComponentsRegistry;
+import com.srjheam.rockethelp.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

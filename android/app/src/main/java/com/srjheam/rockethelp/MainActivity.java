@@ -1,4 +1,4 @@
-package com.igniterockethelp;
+package com.srjheam.rockethelp;
 
 import android.os.Build;
 import android.os.Bundle;
