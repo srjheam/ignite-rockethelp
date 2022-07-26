@@ -33,7 +33,7 @@ export function Order({ data, ...rest }: Props) {
         <Box h='full' w={2} bg={statusColor} />
         <VStack flex={1} my={5} ml={5}>
           <Text color='white' fontSize='md'>
-            Patrimônio: {data.patrimony}
+            Patrimônio {data.patrimony}
           </Text>
           <HStack alignItems='center'>
             <ClockAfternoon size={15} color={colors.gray[300]} />
