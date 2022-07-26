@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
 
-import { useRoute } from "@react-navigation/native";
+import { Alert } from "react-native";
+
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 import firestore from "@react-native-firebase/firestore";
 
 import { VStack, HStack, Text, useTheme, ScrollView } from "native-base";
 
-import { CircleWavyCheck, Hourglass } from "phosphor-react-native";
+import { ClipboardText, CircleWavyCheck, DesktopTower, Hourglass } from "phosphor-react-native";
 
+import { Button } from "../components/Button";
+import { CardDetails } from "../components/CardDetails";
+import { Input } from "../components/Input";
 import { Header } from "../components/Header";
 import { OrderProps } from "../components/Order";
 import { Loading } from "../components/Loading";
@@ -33,8 +38,30 @@ export function Details() {
 
   const { colors } = useTheme();
 
+  const navigation = useNavigation();
   const route = useRoute();
   const { orderId } = route.params as RouteParams;
+
+  function handleCloseOrder() {
+    if (!solution) {
+      return Alert.alert('Atenção', 'Não é possível concluir solicitação sem solução.');
+    }
+
+    firestore()
+      .collection<OrderDTO>('orders')
+      .doc(orderId)
+      .update({
+        status: 'closed',
+        solution,
+        closed_at: firestore.FieldValue.serverTimestamp()
+      })
+      .then(() => {
+        Alert.alert('Solicitação', 'Solicitação concluída com sucesso.');
+        navigation.goBack();
+      })
+      .catch(() =>
+        Alert.alert('Erro', 'Não foi possível concluir a solicitação.'));
+  }
 
   useEffect(() => {
     firestore()
@@ -74,7 +101,7 @@ export function Details() {
         {
           order.status === 'closed'
           ? <CircleWavyCheck size={22} color={colors.green[300]} />
-          : <Hourglass size={22} color={colors.green[300]} />
+          : <Hourglass size={22} color={colors.secondary[300]} />
         }
 
         <Text
@@ -91,8 +118,48 @@ export function Details() {
         mx={5}
         showsVerticalScrollIndicator={false}
       >
-        
+        <CardDetails
+          title='Equipamento'
+          description={`Patrimônio ${order.patrimony}`}
+          icon={DesktopTower}
+          />
+
+        <CardDetails
+          title='Descrição do problema'
+          description={order.description}
+          icon={ClipboardText}
+          footer={`Registrado em ${order.when}`}
+        />
+
+        <CardDetails
+          title='Solução'
+          icon={CircleWavyCheck}
+          description={order.solution}
+          footer={order.closed && `Encerrado em ${order.closed}`}
+        >
+          {
+            order.status === 'open' &&
+            <Input
+              placeholder='Descrição da solução'
+              h={24}
+              textAlignVertical='top'
+              bg='transparent'
+              _focus={{ bg: 'transparent' }}
+              onChangeText={setSolution}
+              multiline
+            />
+          }
+        </CardDetails>
       </ScrollView>
+
+      {
+        order.status === 'open' &&
+        <Button
+          title='Concluir solicitação'
+          m={5}
+          onPress={handleCloseOrder}
+        />
+      }
     </VStack>
   );
 }
